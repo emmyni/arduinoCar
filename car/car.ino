@@ -45,12 +45,17 @@ void turnLeft() {
     Serial.println("TURN LEFT");  
     flag = 1;                        
   }
-  delay(1500);
+  delay(500);
   state = 10;
   stateStop = 1;
 }
 
 void selfTurn() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW); 
+  digitalWrite(motor2Pin1, LOW); 
+  digitalWrite(motor2Pin2, LOW);
+  delay(500);  
   digitalWrite(motor1Pin1, LOW);
   digitalWrite(motor1Pin2, LOW); 
   digitalWrite(motor2Pin1, HIGH); 
@@ -61,29 +66,6 @@ void selfTurn() {
   }
   delay(1500);
   stateStop = 1;
-}
-
-void checkUltrasonic() {
-  do {
-      goForward();
-      
-      digitalWrite(trigPin, LOW);
-      delayMicroseconds(5);
-      digitalWrite(trigPin, HIGH);
-      delayMicroseconds(10);
-      digitalWrite(trigPin, LOW);
-
-      pinMode(echoPin, INPUT);
-      duration = pulseIn(echoPin, HIGH);
-//      Serial.print(duration);
-
-      cm = (duration/2) / 29.1;
-
-      Serial.print(cm);
-      Serial.print("cm");
-      Serial.println();
-   } while (cm > 20);
-   selfTurn();
 }
 void loop() {
   if (Serial.available() > 0){
@@ -118,7 +100,7 @@ void loop() {
       Serial.println("TURN RIGHT");  
       flag = 1;                        
     }
-    delay(1500);
+    delay(500);
     state = 10;
     stateStop = 1;
   }
@@ -159,7 +141,7 @@ void loop() {
       Serial.print(cm);
       Serial.print("cm");
       Serial.println();
-   } while (cm > 5);
+   } while (cm > 35);
    if (state == '7') {
     selfTurn();
    }
